@@ -1,0 +1,61 @@
+<%- include ('templates/cabecera') %>
+
+<div class="container">
+    <form id="editar" data-eid="<%= emp.eid %>">
+        <input type="text" value="<%= emp.ename %>"class="form-control my-2" name="name">
+        <input type="text" value="<%= emp.salary %>"class="form-control my-2"name="salary">
+        <button 
+          class="btn btn-warning"
+          type="submit"
+        >
+          Editar
+      </button>
+  </form>
+  <hr>
+  <button id="eliminar" type="button" class="btn btn-primary" data-eid="<%= emp.eid %>">Eliminar</button>
+    
+</div>
+
+<script>
+    const $form = document.getElementById('editar')
+    const $btn = document.getElementById('eliminar')
+    $form.addEventListener('submit',async e=>{
+        console.log($form.dataset.eid)
+
+        e.preventDefault();
+        const name = $form.name.value;
+        const salary = $form.salary.value
+        try {
+            let res = await fetch (`/empleados/${$form.dataset.eid}`, {
+            method: 'PUT',
+            headers: { 'Content-type': 'application/json'
+
+            },
+            body: JSON.stringify({ename:name,salary})
+
+        })
+        if(!res.ok) throw res
+        let data = await res.json();
+        if(data.estado) window.location.href = '/empleados'
+        } catch (error) {
+            console.log(error)
+        }
+       
+    })
+    $btn.addEventListener('click', async e=>{ 
+        try {
+            console.log($btn.dataset.eid)
+            let res = await fetch(`/empleados/${$btn.dataset.eid}`,{method:'DELETE'});
+            if(!res.ok) throw{res}
+            let data = await res.json();
+            if(data.estado) {window.location.href= '/empleados'}
+            else { document.querySelector('.container').insertAdjacentHTML('beforeend','<h2>Estas tratando de eliminar un piloto</h2>')}
+        } catch (error) {
+            console.log(error)
+        }
+       
+    })
+</script>
+
+
+<%- include ('templates/footer') %>

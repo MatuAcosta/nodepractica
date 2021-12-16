@@ -1,0 +1,14 @@
+<%- include('templates/cabecera') %> 
+<div class="container">
+    <h1>Crear nuevo empleado</h1>
+    <form action="/empleados" method="post">
+        <input name="ename" type="text" placeholder = "Nombre" class = "form-control my-2">
+        <input name="salary" type="text" placeholder = "Salary" class = "form-control my-2">
+        <button class="btn btn-success" type="submit">Agregar</button>
+    </form>
+    <hr>
+    <% if (error) { %>
+        <h4><%= mensaje %></h4>
+    <% } %>
+</div>
+<%- include('templates/footer') %> 

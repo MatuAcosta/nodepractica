@@ -1,0 +1,27 @@
+<%- include ('templates/cabecera') %>
+<div class="container">
+    <h1><%= consulta.title %> </h1>
+    <a href="/empleados/nuevo" class="btn btn-success">Crear Nuevo empleado</a>
+    <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">eid</th>
+            <th scope="col">name</th>
+            <th scope="col">salary</th>
+          </tr>
+        </thead>
+        <tbody>
+    <% consulta.data.forEach(emp => { %>   
+              <tr>
+                <th scope="row"><%= emp.eid %> </th>
+                <td><%=emp.ename%> </td>
+                <td><%= emp.salary %> </td>
+                <td><a  href="/empleados/<%= emp.eid %> " type="button" class="btn btn-danger" data-id="<%= emp.eid %>">Editar</a>
+                </td>
+              </tr>
+            
+    <% }) %>
+    </tbody>
+    </table>    
+</div>
+<%- include ('templates/footer') %>
